@@ -32,6 +32,10 @@ class ModelTests(TestCase):
             self.assertEqual(user.email,expected)
 
 
+    def test_new_user_without_email_raises_error(self):
+        password = '12345'
+        with self.assertRaises(ValueError):
+            User.objects.create_user('',password)
 
 
 
