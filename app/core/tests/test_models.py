@@ -18,5 +18,21 @@ class ModelTests(TestCase):
         self.assertEqual(user.email, email)
         self.assertTrue(user.check_password(password))
 
+    def test_user_email_normalized(self):
+        sample_emails = [
+            ['test1@EXAMPLE.com','test1@example.com'],
+            ['test2@example.COM','test2@example.com'],
+            ['Test3@Example.com','Test3@example.com'],
+            ['TEST4@example.com','TEST4@example.com']
+        ]
+        password = "12345"
+
+        for email, expected in sample_emails:
+            user = User.objects.create_user(email,password)
+            self.assertEqual(user.email,expected)
+
+
+
+
 
 
