@@ -4,10 +4,22 @@ name: Checks
 on: [push]
 
 jobs:
+
+#  test-image:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#      - name: Check that the image builds
+#        run: docker build . --file Dockerfile
+
   test-lint:
     name: Test and Lint
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
+      - name: Check that the image builds
+        uses: actions/checkout@v4
+        run: docker build . --file Dockerfile
+
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
@@ -22,3 +34,4 @@ jobs:
 
 #      - name: Lint
 #        run: docker-compose run --rm app sh -c "flake8"
+
