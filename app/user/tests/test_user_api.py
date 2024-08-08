@@ -27,7 +27,7 @@ class PublicUserApiTests(TestCase):
         }
         res = self.client.post(self.create_user_url,payload)
 
-        self.assertEqual(res.Status_code,status.HTTP_201_CREATED)
+        self.assertEqual(res.status_code,status.HTTP_201_CREATED)
 
         #to validate the user obj is created in the db
         user = User.objects.get(email=payload['email'])
