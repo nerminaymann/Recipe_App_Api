@@ -50,3 +50,20 @@ class PublicUserApiTests(TestCase):
         res = self.client.post(self.create_user_url,payload)
 
         self.assertEqual(res.status_code,status.HTTP_400_BAD_REQUEST)
+
+
+    def test_passwrod_too_short_error(self):
+        #test error is returned if pass is less than 5 chars
+
+        payload = {
+            'email':'test@example.com',
+            'password':'123',
+            'name':'test user'
+        }
+
+        res = self.client.post(self.create_user_url,payload)
+
+        self.assertEqual(res.status_code,status.HTTP_400_BAD_REQUEST)
+
+        user_exists = User.objects.filter(email=payload['email']).exists()
+        self.assertFalse(user_exists)
