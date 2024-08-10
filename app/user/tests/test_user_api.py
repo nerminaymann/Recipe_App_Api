@@ -106,7 +106,7 @@ class PublicUserApiTests(TestCase):
         create_user(email='test@example.com', password='12345')
         payload = {
             'email': 'test@example.com',
-            'password': ''
+            'password': '',
         }
         res = self.client.post(self.token_url, payload)
 
