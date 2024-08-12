@@ -7,6 +7,7 @@ from rest_framework.settings import api_settings
 from .serializers import UserSerializer, AuthTokenSerializer
 
 
+#register
 class CreateUserView(generics.ListCreateAPIView):
     serializer_class = UserSerializer
 
