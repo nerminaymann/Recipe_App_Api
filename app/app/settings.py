@@ -40,9 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core.apps.CoreConfig',
     'user.apps.UserConfig',
+    'recipe.apps.RecipeConfig',
     'rest_framework',
-    'rest_framework.authtoken',
     'drf_spectacular',
+    'rest_framework.authtoken',
 
 ]
 
@@ -73,6 +74,40 @@ TEMPLATES = [
         },
     },
 ]
+
+REST_FRAMEWORK={
+    'NON_FIELD_ERRORS_KEY': 'errors',
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',
+                                   'rest_framework.permissions.IsAdminUser',
+                                   ),
+    'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework.authentication.TokenAuthentication',
+                                       'rest_framework.authentication.SessionAuthentication'),
+
+
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema'
+}
+
+# SPECTACULAR_SETTINGS = {
+#     'SECURITY_DEFINITIONS': {
+#         'api_key': {
+#             'type': 'apiKey',
+#             'in': 'header',
+#             'name': 'Authorization'
+#         }
+#     },
+# }
+
+SPECTACULAR_SETTINGS = {
+    'TITLE':'Django DRF Recipe App',
+    'DESCRIPTION':'A REST API for a Recipe App Service',
+    'SECURITY_DEFINITIONS':{
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+    },
+    'DEFAULT_VERSION': '1.0.0',
+}
+
 
 WSGI_APPLICATION = 'app.wsgi.application'
 
@@ -133,8 +168,4 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'core.User'
-
-REST_FRAMEWORK={
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema'
-}
 
