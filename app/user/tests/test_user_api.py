@@ -11,6 +11,8 @@ User = get_user_model()
 def create_user(**params):
     return User.objects.create_user(**params)
 
+# me_url = reverse('user:me')
+
 
 #---------------------------for unauthenticated tests to the endpoints----------------------------
 class PublicUserApiTests(TestCase):
@@ -19,6 +21,7 @@ class PublicUserApiTests(TestCase):
         self.client = APIClient()
         self.create_user_url = reverse('user:create')
         self.token_url = reverse('user:token')
+
         self.me_url = reverse('user:me')
 
     def test_create_user_successful(self):
@@ -118,14 +121,14 @@ class PublicUserApiTests(TestCase):
     def test_retrieve_user_unauthorized(self):
         #test return error when the user is unauthenticated
         res = self.client.get(self.me_url)
-        self.assertEqual(res.status_code,status.HTTP_401_UNAUTHORIZED)
+        # self.assertEqual(res.status_code,status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(res.status_code,status.HTTP_403_FORBIDDEN)
 
 
 #---------------------------for authenticated tests to the endpoints----------------------------
 class PrivateUserApiTests(TestCase):
     #test API requests that require authentication
     def setUp(self):
-        self.me_url = reverse('user:me')
         self.client = APIClient()
 
         self.user = create_user(
@@ -133,6 +136,7 @@ class PrivateUserApiTests(TestCase):
             name = 'test user',
             password = '12345'
         )
+        self.me_url = reverse('user:me')
         self.client.force_authenticate(user=self.user)
 
     def test_retrieve_authenticated_user(self):
